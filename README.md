@@ -23,7 +23,7 @@ A hands-on cloud security audit: I deployed a deliberately misconfigured AWS env
 ## Architecture
 
 ```
-┌─────────────────────────────────────────────────────────┐
+┌──────────────────────────────────────────────────────────┐
 │                    AWS Account (Free Tier)               │
 │                                                          │
 │   ┌────────────┐   ┌────────────┐   ┌────────────────┐   │
