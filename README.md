@@ -8,15 +8,13 @@ A hands-on cloud security audit: I deployed a deliberately misconfigured AWS env
 
 ## Overview
 
-|  |  |
-|---|---|
-| **Cloud** | AWS (Free Tier) |
-| **Audit tool** | Prowler 5.37.1 |
-| **Benchmark** | CIS AWS Foundations |
-| **Scope** | Single account, `us-east-1` |
-| **Simulated misconfigurations** | 5 |
-| **Fully remediated & verified** | 3 |
-| **Documented limitation / manual finding** | 2 |
+- **Cloud:** AWS (Free Tier)
+- **Audit tool:** Prowler 5.37.1
+- **Benchmark:** CIS AWS Foundations
+- **Scope:** Single account, `us-east-1`
+- **Simulated misconfigurations:** 5
+- **Fully remediated & verified:** 3
+- **Documented limitation / manual finding:** 2
 
 ---
 
