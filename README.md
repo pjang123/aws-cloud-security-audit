@@ -8,7 +8,7 @@ A hands-on cloud security audit: I deployed a deliberately misconfigured AWS env
 
 ## Overview
 
-| Item | Detail |
+|  |  |
 |---|---|
 | **Cloud** | AWS (Free Tier) |
 | **Audit tool** | Prowler 5.37.1 |
