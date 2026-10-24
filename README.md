@@ -1,15 +1,13 @@
-# AWS Cloud Security Audit — Detection & Remediation with Prowler
+# AWS Cloud Security Audit: Detection & Remediation with Prowler
 
 A hands-on cloud security audit: I deployed a deliberately misconfigured AWS environment, audited it with [Prowler](https://github.com/prowler-cloud/prowler) against the CIS AWS Foundations Benchmark, remediated the findings following least-privilege and defense-in-depth principles, and verified every fix with a second scan.
 
-**Skills demonstrated:** cloud security auditing · AWS IAM/S3/EC2/CloudTrail · misconfiguration remediation · CIS benchmark compliance · least-privilege access design · automated vs. manual verification
+**Skills demonstrated:** Cloud Security Auditing · AWS IAM/S3/EC2/CloudTrail · Misconfiguration Remediation · CIS Benchmark Compliance · Least-privilege Access Design · Automated vs. Manual verification
 
 ---
 
 ## Overview
 
-| | |
-|---|---|
 | **Cloud** | AWS (Free Tier) |
 | **Audit tool** | Prowler 5.37.1 |
 | **Benchmark** | CIS AWS Foundations |
@@ -46,7 +44,7 @@ A hands-on cloud security audit: I deployed a deliberately misconfigured AWS env
                   └──────────────┘
 ```
 
-Prowler runs under a dedicated, read-only IAM user (`prowler-scanner`) with only the `SecurityAudit` and `ViewOnlyAccess` managed policies attached — the scanner never has permission to modify the account it audits.
+Prowler runs under a dedicated, read-only IAM user (`prowler-scanner`) with only the `SecurityAudit` and `ViewOnlyAccess` managed policies attached. The scanner never has permission to modify the account it audits.
 
 ---
 
@@ -73,25 +71,25 @@ Prowler runs under a dedicated, read-only IAM user (`prowler-scanner`) with only
 
 | # | Finding | Severity | Status | Fix |
 |---|---|---|---|---|
-| 1 | S3 bucket publicly readable | Critical | ✅ Remediated | Deleted public bucket policy; re-enabled account/bucket Block Public Access |
-| 2 | IAM role with `AdministratorAccess` | Critical | ✅ Remediated | Detached admin policy; attached scoped `AmazonS3ReadOnlyAccess` |
-| 3 | CloudTrail not enabled | High | ✅ Remediated | Created + started a trail with a dedicated, permission-scoped log bucket |
-| 4 | EBS volume unencrypted | Medium | 📝 Documented | AWS does not support in-place encryption of an existing volume; remediation path documented |
-| 5 | Security group open to `0.0.0.0/0` on 22/3389 | Critical | 📝 Manual | Not surfaced by the automated scan (unattached group); confirmed via manual verification, then revoked |
+| 1 | S3 bucket publicly readable | Critical | Remediated | Deleted public bucket policy; re-enabled account/bucket Block Public Access |
+| 2 | IAM role with `AdministratorAccess` | Critical | Remediated | Detached admin policy; attached scoped `AmazonS3ReadOnlyAccess` |
+| 3 | CloudTrail not enabled | High | Remediated | Created + started a trail with a dedicated, permission-scoped log bucket |
+| 4 | EBS volume unencrypted | Medium | Documented | AWS does not support in-place encryption of an existing volume; remediation path documented |
+| 5 | Security group open to `0.0.0.0/0` on 22/3389 | Critical | Manual | Not surfaced by the automated scan (unattached group); confirmed via manual verification, then revoked |
 
 ### Highlight: public S3 bucket → locked down
 
-Before — the "sensitive" test object was reachable by anyone on the internet:
+Before: The "sensitive" test object was reachable by anyone on the internet:
 
 ![S3 object publicly accessible](evidence/screenshots/s3-public-before.png)
 
-After — the same URL returns `AccessDenied`:
+After: The same URL returns `AccessDenied`:
 
 ![S3 object access denied](evidence/screenshots/s3-denied-after.png)
 
 ### Highlight: the scanner's blind spot
 
-Prowler did **not** flag the open security group, because the group was not attached to a running resource at scan time — so it wasn't counted as live attack surface. Manual verification confirmed the exposure the automated tool missed:
+Prowler did **not** flag the open security group, because the group was not attached to a running resource at scan time, so it wasn't counted as live attack surface. Manual verification confirmed the exposure the automated tool missed:
 
 ![Security group open ingress rules](evidence/screenshots/security-group-open.png)
 
@@ -127,7 +125,7 @@ prowler aws --profile prowler-scanner --output-formats html json-asff --output-d
 
 ## Key takeaways
 
-- **Automated tools are a starting point, not the whole picture.** A misconfigured but unattached resource slipped past the scanner entirely — manual review caught it.
+- **Automated tools are a starting point, not the whole picture.** A misconfigured but unattached resource slipped past the scanner entirely; however, manual review caught it.
 - **Remediation should be verified, not assumed.** Every fix was confirmed with a second scan rather than treated as done once the command returned.
 - **Least privilege applies to your tooling too.** The audit itself was run with a read-only identity that could never alter the account.
 
